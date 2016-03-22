@@ -1,0 +1,27 @@
+version: "2"
+networks:
+  signup-verification:
+    driver: bridge
+services:
+  app:
+    build: .
+    networks:
+      - signup-verification
+    ports:
+      - 8080:8080
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/usr/src/app
+  mongo:
+    image: mongo:latest
+    networks:
+      signup-verification:
+        aliases:
+          - mongo
+          - db
+    volumes:
+      - mongo-data:/data
+volumes:
+  mongo-data:
+    driver: local
