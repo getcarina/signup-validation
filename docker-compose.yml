@@ -5,6 +5,8 @@ networks:
 services:
   app:
     build: .
+    environment:
+      - REDIS_HOST=redis
     networks:
       - signup-verification
     ports:
@@ -12,16 +14,15 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - .:/usr/src/app
-  mongo:
-    image: mongo:latest
+      - ./src:/usr/src/app/src
+  redis:
+    image: redis:3.0.7
     networks:
       signup-verification:
         aliases:
-          - mongo
-          - db
+          - redis
     volumes:
-      - mongo-data:/data
+      - redis-data:/data
 volumes:
-  mongo-data:
+  redis-data:
     driver: local

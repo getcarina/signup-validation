@@ -3,15 +3,14 @@ var util = require('util');
 var log = require('./log');
 var server = restify.createServer();
 
-server.get('/verify/:email', require('./verify'));
+server.use(restify.bodyParser());
 
-server.post('/signup', (req, res, next) => {
-  res.status(501);
-  res.end();
-});
+server.get('/validate/:email', require('./routers/validate'));
+
+server.post('/signup', require('./routers/signup'));
 
 server.listen(process.env.NODE_PORT || 8080, () => {
-  log.info('Server listening', {
+  log.logger.info('Server listening', {
     port: process.env.NODE_PORT || 8080
   });
 });

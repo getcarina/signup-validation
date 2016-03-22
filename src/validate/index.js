@@ -12,20 +12,11 @@ var doHandlers = (args) => {
   return promises;
 };
 
+handlers.push(require('./forbid-disposable-domains'));
 handlers.push(require('./unique-normalized-hash'));
 
-module.exports = (req, res, next) => {
 
-  Q.all(doHandlers([req.params.email]))
-  .then(() => {
-    res.status(200);
-    res.end();
-  })
-  .catch((err) => {
-    log.warn(err);
-
-    res.status(500);
-    res.end();
-  });
-
+module.exports = (email) => {
+  log.logger.debug('Starting email validation handlers');
+  return Q.all(doHandlers([email]));
 };

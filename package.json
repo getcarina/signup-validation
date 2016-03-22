@@ -9,9 +9,10 @@
   "author": "Keith Bartholomew <keith.bartholomew@rackspace.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "mongodb": "2.1.10",
+    "disposable-email-domains": "1.0.6",
     "normalize-email": "1.0.0",
     "q": "1.4.1",
+    "redis": "2.5.3",
     "restify": "4.0.4",
     "winston": "^2.2.0"
   }

@@ -9,4 +9,20 @@ var logger = new winston.Logger({
   ]
 });
 
-module.exports = logger;
+module.exports = {
+  logger: logger
+};
+
+module.exports.sendHTTPError = (options) => {
+  options.res.status(options.status);
+  options.res.send({
+    status: 'error',
+    message: options.message
+  });
+
+  logger.error(options.message, {
+    headers: options.req.headers,
+    body: options.req.body,
+    address: options.req.connection.remoteAddress
+  });
+};
