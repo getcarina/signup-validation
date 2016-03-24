@@ -12,8 +12,12 @@ docker pull ${registry}/${user}/pwsafeinject
 
 # There's a better place for redis, but this will have to do for now
 if [ ${DEPLOY_REDIS:-0} -ne 0 ]; then
-	docker rm -vf rcs-signup-validation-redis 2>/dev/null || true
- 	docker run -d --name rcs-signup-validation-redis redis:latest
+  docker rm -vf rcs-signup-validation-redis 2>/dev/null || true
+   docker run \
+    -d \
+    --name rcs-signup-validation-redis \
+		--volumes-from ${REDIS_DATA_CONTAINER} \
+		redis:latest
 fi
 
 set +x
