@@ -1,0 +1,29 @@
+#!/bin/bash -xe
+
+source config/${ENVIRONMENT:-prod}.sh
+
+registry=containers-registry.ohthree.com
+user=team-containers
+tag=${TAG:-latest}
+
+signup_validation_image=${registry}/${user}/rcs-signup-validation:${tag}
+
+docker pull ${registry}/${user}/pwsafeinject
+
+# There's a better place for redis, but this will have to do for now
+if [ ${DEPLOY_REDIS:-0} -ne 0 ]; then
+	docker rm -vf rcs-signup-validation-redis 2>/dev/null || true
+ 	docker run -d --name rcs-signup-validation-redis redis:latest
+fi
+
+set +x
+
+echo "Deploying ${signup_validation_image}"
+
+docker rm -fv rcs-signup-validation 2>/dev/null || true
+docker run \
+--detach \
+--env REDIS_HOST=redis \
+--link rcs-signup-validation-redis:redis \
+--name rcs-signup-validation \
+${signup_validation_image}
