@@ -2,8 +2,8 @@
 
 source config/${ENVIRONMENT:-prod}.sh
 
-registry=containers-registry.ohthree.com
-user=team-containers
+registry=${REGISTRY:=containers-registry.ohthree.com}
+user=${USER:=team-containers}
 tag=${TAG:-latest}
 
 signup_validation_image=${registry}/${user}/rcs-signup-validation:${tag}
