@@ -16,8 +16,10 @@ module.exports = {
 module.exports.sendHTTPError = (options) => {
   options.res.status(options.status);
   options.res.send({
-    status: 'error',
-    message: options.message
+    error: {
+      status: 'error',
+      message: options.message
+    }
   });
 
   logger.error(options.message, {
