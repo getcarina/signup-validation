@@ -12,6 +12,7 @@ var doHandlers = (args) => {
   return promises;
 };
 
+handlers.push(require('./invalid-characters'));
 handlers.push(require('./email-regex'));
 handlers.push(require('./forbid-disposable-domains'));
 handlers.push(require('./unique-normalized-hash'));
